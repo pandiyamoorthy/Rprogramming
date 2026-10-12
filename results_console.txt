@@ -1,0 +1,490 @@
+
+### STAGE1_DATA_STRUCTURES
+Vector  (minutes per km by vehicle):
+   Bike Scooter     Car 
+    3.0     2.4     2.8 
+
+Matrix  (traffic x weather multiplier):
+       Clear Rainy
+Low     1.00  1.00
+Medium  1.25  1.15
+High    1.60  1.35
+
+Array dimensions: 3 4 2 
+
+Ordered factor:
+[1] Low    High   Medium Low   
+Levels: Low < Medium < High
+
+List structure:
+List of 3
+ $ restaurant: chr "Spice Hub"
+ $ rating    : num 4.3
+ $ items     : chr [1:2] "Biryani" "Raita"
+
+### STAGE1_LOAD_DATASET
+  Order_ID Distance_km Prep_Time_min Courier_Experience Items_Count Order_Value
+1  FD04321         7.1            11                5.1           3         795
+2  FD03269         5.4            21                1.6           3         715
+3  FD04886         5.2             8                0.7           7        1517
+4  FD00260         5.9            21                3.3           2         403
+5  FD02563         4.4            14                1.5           7        1916
+6  FD02642         7.5            19                0.6           4         567
+  Restaurant_Rating Traffic Weather Time_of_Day Vehicle Promised_Time_min
+1               4.6  Medium   Clear     Morning Scooter                48
+2               3.3  Medium   Rainy   Afternoon    Bike                44
+3               3.7  Medium   Rainy     Morning    Bike                43
+4               4.0  Medium   Foggy       Night     Car                45
+5               3.8     Low   Clear     Evening    Bike                41
+6               4.1     Low   Clear       Night Scooter                49
+  Delivery_Time_min Delayed
+1              35.1       0
+2              43.3       0
+3              32.5       0
+4              32.3       0
+5              34.2       0
+6              40.8       0
+
+Dimensions: 5025 14 
+
+Column names:
+ [1] "Order_ID"           "Distance_km"        "Prep_Time_min"     
+ [4] "Courier_Experience" "Items_Count"        "Order_Value"       
+ [7] "Restaurant_Rating"  "Traffic"            "Weather"           
+[10] "Time_of_Day"        "Vehicle"            "Promised_Time_min" 
+[13] "Delivery_Time_min"  "Delayed"           
+
+'data.frame':	5025 obs. of  14 variables:
+ $ Order_ID          : chr  "FD04321" "FD03269" "FD04886" "FD00260" ...
+ $ Distance_km       : num  7.1 5.4 5.2 5.9 4.4 7.5 7.8 6.9 4 10.4 ...
+ $ Prep_Time_min     : int  11 21 8 21 14 19 17 10 19 21 ...
+ $ Courier_Experience: num  5.1 1.6 0.7 3.3 1.5 0.6 0.2 10.7 8 10.2 ...
+ $ Items_Count       : int  3 3 7 2 7 4 1 2 3 3 ...
+ $ Order_Value       : int  795 715 1517 403 1916 567 286 542 734 715 ...
+ $ Restaurant_Rating : num  4.6 3.3 3.7 4 3.8 4.1 3.8 4 3.6 4.1 ...
+ $ Traffic           : chr  "Medium" "Medium" "Medium" "Medium" ...
+ $ Weather           : chr  "Clear" "Rainy" "Rainy" "Foggy" ...
+ $ Time_of_Day       : chr  "Morning" "Afternoon" "Morning" "Night" ...
+ $ Vehicle           : chr  "Scooter" "Bike" "Bike" "Car" ...
+ $ Promised_Time_min : int  48 44 43 45 41 49 50 47 40 56 ...
+ $ Delivery_Time_min : num  35.1 43.3 32.5 32.3 34.2 40.8 49.5 39 37.1 52.2 ...
+ $ Delayed           : int  0 0 0 0 0 0 0 0 0 0 ...
+
+   Order_ID          Distance_km    Prep_Time_min   Courier_Experience
+ Length:5025        Min.   : 0.50   Min.   : 3.00   Min.   : 0.000    
+ Class :character   1st Qu.: 4.20   1st Qu.:12.00   1st Qu.: 0.900    
+ Mode  :character   Median : 6.00   Median :15.00   Median : 2.100    
+                    Mean   : 6.49   Mean   :15.06   Mean   : 2.929    
+                    3rd Qu.: 8.30   3rd Qu.:18.00   3rd Qu.: 4.100    
+                    Max.   :22.80   Max.   :37.00   Max.   :12.000    
+                                                    NA's   :100       
+  Items_Count     Order_Value     Restaurant_Rating   Traffic         
+ Min.   : 1.00   Min.   : 120.0   Min.   :2.5       Length:5025       
+ 1st Qu.: 2.00   1st Qu.: 389.0   1st Qu.:3.8       Class :character  
+ Median : 3.00   Median : 569.0   Median :4.1       Mode  :character  
+ Mean   : 3.03   Mean   : 637.8   Mean   :4.1                         
+ 3rd Qu.: 4.00   3rd Qu.: 835.0   3rd Qu.:4.4                         
+ Max.   :11.00   Max.   :3280.0   Max.   :5.0                         
+                                  NA's   :100                         
+   Weather          Time_of_Day          Vehicle          Promised_Time_min
+ Length:5025        Length:5025        Length:5025        Min.   :31.00    
+ Class :character   Class :character   Class :character   1st Qu.:40.00    
+ Mode  :character   Mode  :character   Mode  :character   Median :45.00    
+                                                          Mean   :46.23    
+                                                          3rd Qu.:51.00    
+                                                          Max.   :87.00    
+                                                                           
+ Delivery_Time_min    Delayed      
+ Min.   : -5.00    Min.   :0.0000  
+ 1st Qu.: 31.20    1st Qu.:0.0000  
+ Median : 39.70    Median :0.0000  
+ Mean   : 42.31    Mean   :0.2802  
+ 3rd Qu.: 50.00    3rd Qu.:1.0000  
+ Max.   :480.00    Max.   :1.0000  
+                                   
+
+### STAGE2_CONTROL_STRUCTURES
+Bike     mean delivery =  44.6 min | cheap, slower, affected most by traffic
+Scooter  mean delivery =  38.6 min | fastest in city traffic
+Car      mean delivery =  42.7 min | good for bad weather, slow to park
+
+while-loop estimate: average order would need ~12.5 km to take 60 min
+repeat-loop: needed 142 orders to see 30 delays
+
+sapply  - column means:
+       Distance_km      Prep_Time_min Courier_Experience        Items_Count 
+              6.49              15.05               2.93               3.03 
+       Order_Value  Restaurant_Rating  Delivery_Time_min 
+            637.63               4.10              41.88 
+
+lapply  - first two column ranges:
+$Distance_km
+[1]  0.5 22.8
+
+$Prep_Time_min
+[1]  3 37
+
+
+tapply  - mean delivery time by traffic:
+  High    Low Medium 
+ 49.44  36.56  41.12 
+
+sapply + user function - delay category counts for the first 200 orders:
+
+      On time Slightly late     Very late 
+          154            33            13 
+
+List of mixed objects:
+List of 5
+ $ project  : chr "Food Delivery Time Analysis"
+ $ n_orders : int 5015
+ $ vehicles : chr [1:3] "Scooter" "Bike" "Car"
+ $ averages : Named num [1:2] 6.49 41.88
+  ..- attr(*, "names")= chr [1:2] "Distance_km" "Delivery_Time_min"
+ $ func_used: chr [1:5] "rmse" "mae" "r2" "get_mode" ...
+
+Data-frame manipulation - top 5 slowest weather/traffic combinations:
+  Weather Traffic orders mean_time delay_rate
+1  Stormy    High     91      54.3      0.747
+2   Rainy    High    327      50.7      0.642
+3   Foggy    High    154      49.2      0.597
+4   Clear    High    678      48.5      0.507
+5  Stormy  Medium    161      47.7      0.478
+
+### STAGE3_CLEANING
+Missing values per column:
+          Order_ID        Distance_km      Prep_Time_min Courier_Experience 
+                 0                  0                  0                100 
+       Items_Count        Order_Value  Restaurant_Rating            Traffic 
+                 0                  0                100                  0 
+           Weather        Time_of_Day            Vehicle  Promised_Time_min 
+               100                  0                  0                  0 
+ Delivery_Time_min            Delayed 
+                 0                  0 
+
+Duplicate rows: 25 
+Rows after removing duplicates: 5000 
+Rows with impossible delivery time / distance: 10 
+Missing values left: 0 
+
+Clean dataset: 4990 rows x 17 columns
+
+Delay category counts:
+
+      On time Slightly late     Very late 
+         3598           969           423 
+
+Delayed share: 0.279 
+
+### STAGE3_VISUALISATION
+`geom_smooth()` using formula = 'y ~ x'
+null device 
+          1 
+Correlation of every numeric variable with Delivery_Time_min:
+ Delivery_Time_min        Distance_km  Promised_Time_min            Delayed 
+             1.000              0.816              0.816              0.687 
+     Prep_Time_min        Order_Value        Items_Count  Restaurant_Rating 
+             0.263              0.023              0.022             -0.027 
+Courier_Experience 
+            -0.095 
+
+### STAGE4_STATISTICS
+--- 4.1 Descriptive statistics & skewness of Delivery_Time_min ---
+n=4990 mean=41.85 median=39.70 sd=15.32 skewness=0.964
+95% CI for mean delivery time: [41.43, 42.28]
+
+--- 4.2 Normality test (Shapiro-Wilk on random sample of 4000) ---
+
+	Shapiro-Wilk normality test
+
+data:  sample(x, 4000)
+W = 0.95402, p-value < 2.2e-16
+
+
+--- 4.3 Pearson correlation test: Distance vs Delivery time ---
+
+	Pearson's product-moment correlation
+
+data:  food$Distance_km and food$Delivery_Time_min
+t = 99.85, df = 4988, p-value < 2.2e-16
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.8069484 0.8254633
+sample estimates:
+      cor 
+0.8164155 
+
+
+--- 4.4 Two-sample t-test: Clear vs Rainy weather (Welch) ---
+
+	Welch Two Sample t-test
+
+data:  Delivery_Time_min by Weather
+t = -5.6277, df = 2325.1, p-value = 2.046e-08
+alternative hypothesis: true difference in means between group Clear and group Rainy is not equal to 0
+95 percent confidence interval:
+ -3.941354 -1.904385
+sample estimates:
+mean in group Clear mean in group Rainy 
+           40.35896            43.28183 
+
+
+--- 4.5 One-way ANOVA: Delivery time ~ Traffic ---
+              Df  Sum Sq Mean Sq F value Pr(>F)    
+Traffic        2  115806   57903   273.9 <2e-16 ***
+Residuals   4987 1054363     211                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Tukey HSD post-hoc:
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Delivery_Time_min ~ Traffic, data = food)
+
+$Traffic
+                 diff       lwr       upr p adj
+Medium-Low   4.584453  3.443599  5.725308     0
+High-Low    12.874760 11.572489 14.177031     0
+High-Medium  8.290306  7.092141  9.488471     0
+
+
+--- 4.6 Kruskal-Wallis (non-parametric): Delivery time ~ Vehicle ---
+
+	Kruskal-Wallis rank sum test
+
+data:  Delivery_Time_min by Vehicle
+Kruskal-Wallis chi-squared = 165.82, df = 2, p-value < 2.2e-16
+
+
+--- 4.7 Chi-square test of independence: Traffic vs Delayed ---
+        
+            0    1
+  Low    1365  123
+  Medium 1681  551
+  High    552  718
+
+	Pearson's Chi-squared test
+
+data:  tab
+X-squared = 814.38, df = 2, p-value < 2.2e-16
+
+
+--- 4.8 Multicollinearity (VIF from auxiliary regressions) ---
+       Distance_km      Prep_Time_min Courier_Experience        Items_Count 
+             1.000              1.000              1.000              3.803 
+       Order_Value  Restaurant_Rating 
+             3.804              1.000 
+(VIF > 5 would signal a multicollinearity problem)
+
+### STAGE5_SPLIT
+Train rows: 3994 | Test rows: 996 
+Delayed share  train: 0.283  test: 0.261 
+
+### STAGE6_LM_SIMPLE
+
+Call:
+lm(formula = Delivery_Time_min ~ Distance_km, data = tr_reg)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-34.383  -5.926  -0.338   5.514  41.683 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  16.4848     0.3182   51.80   <2e-16 ***
+Distance_km   3.9166     0.0438   89.41   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.965 on 3992 degrees of freedom
+Multiple R-squared:  0.667,	Adjusted R-squared:  0.6669 
+F-statistic:  7994 on 1 and 3992 DF,  p-value: < 2.2e-16
+
+
+### STAGE6_LM_MULTIPLE
+
+Call:
+lm(formula = Delivery_Time_min ~ ., data = tr_reg)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-20.8986  -3.3136   0.0107   2.9997  27.9745 
+
+Coefficients:
+                       Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           4.116e+00  8.090e-01   5.088 3.79e-07 ***
+Distance_km           3.887e+00  2.468e-02 157.521  < 2e-16 ***
+Prep_Time_min         7.743e-01  1.604e-02  48.266  < 2e-16 ***
+Courier_Experience   -4.759e-01  2.894e-02 -16.442  < 2e-16 ***
+Items_Count           2.854e-01  1.101e-01   2.593 0.009539 ** 
+Order_Value          -5.644e-05  4.489e-04  -0.126 0.899963    
+Restaurant_Rating    -1.047e+00  1.680e-01  -6.232 5.07e-10 ***
+TrafficMedium         4.920e+00  1.891e-01  26.020  < 2e-16 ***
+TrafficHigh           1.222e+01  2.154e-01  56.746  < 2e-16 ***
+WeatherFoggy          2.402e+00  2.519e-01   9.535  < 2e-16 ***
+WeatherRainy          3.566e+00  1.913e-01  18.641  < 2e-16 ***
+WeatherStormy         8.119e+00  3.153e-01  25.752  < 2e-16 ***
+Time_of_DayAfternoon  1.224e+00  2.300e-01   5.322 1.08e-07 ***
+Time_of_DayEvening    3.018e+00  2.241e-01  13.471  < 2e-16 ***
+Time_of_DayNight     -9.136e-01  2.654e-01  -3.442 0.000583 ***
+VehicleScooter       -5.776e+00  1.751e-01 -32.996  < 2e-16 ***
+VehicleCar           -2.057e+00  2.325e-01  -8.847  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.041 on 3977 degrees of freedom
+Multiple R-squared:  0.8951,	Adjusted R-squared:  0.8947 
+F-statistic:  2120 on 16 and 3977 DF,  p-value: < 2.2e-16
+
+
+AIC multiple LM: 24275.2  | AIC simple LM: 28858.5 
+
+### STAGE6_LM_INTERACTION
+Adjusted R2 (interaction model): 0.9256 
+ANOVA: does the interaction model beat the multiple model?
+Analysis of Variance Table
+
+Model 1: Delivery_Time_min ~ Distance_km + Prep_Time_min + Courier_Experience + 
+    Items_Count + Order_Value + Restaurant_Rating + Traffic + 
+    Weather + Time_of_Day + Vehicle
+Model 2: Delivery_Time_min ~ Distance_km + Prep_Time_min + Courier_Experience + 
+    Items_Count + Order_Value + Restaurant_Rating + Traffic + 
+    Weather + Time_of_Day + Vehicle + Distance_km:Traffic + Distance_km:Weather + 
+    Distance_km:Vehicle
+  Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+1   3977 101070                                  
+2   3970  71285  7     29785 236.97 < 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+### STAGE6_5FOLD_CV
+5-fold CV (multiple LM):  RMSE = 5.057  R2 = 0.8942 
+
+### STAGE6_TREE
+Decision tree used 32 leaf nodes
+
+### STAGE6_RF
+Random forest OOB R2: 0.8775 
+
+Variable importance (impurity):
+       Distance_km            Traffic      Prep_Time_min Courier_Experience 
+            595741              89456              77970              36838 
+       Order_Value            Vehicle            Weather  Restaurant_Rating 
+             33271              27439              25263              24980 
+       Time_of_Day        Items_Count 
+             15329              13412 
+
+### STAGE6_LOGISTIC
+
+Call:
+glm(formula = Delayed ~ ., family = binomial, data = tr_cl)
+
+Coefficients:
+                       Estimate Std. Error z value Pr(>|z|)    
+(Intercept)          -1.233e+01  7.006e-01 -17.597  < 2e-16 ***
+Distance_km           5.844e-01  2.474e-02  23.622  < 2e-16 ***
+Prep_Time_min         3.147e-01  1.527e-02  20.610  < 2e-16 ***
+Courier_Experience   -1.879e-01  2.282e-02  -8.234  < 2e-16 ***
+Items_Count           1.472e-01  7.918e-02   1.859  0.06297 .  
+Order_Value          -7.867e-05  3.186e-04  -0.247  0.80498    
+Restaurant_Rating    -2.845e-01  1.190e-01  -2.391  0.01679 *  
+TrafficMedium         2.810e+00  1.876e-01  14.979  < 2e-16 ***
+TrafficHigh           5.620e+00  2.356e-01  23.856  < 2e-16 ***
+WeatherFoggy          1.201e+00  1.784e-01   6.731 1.69e-11 ***
+WeatherRainy          1.677e+00  1.415e-01  11.857  < 2e-16 ***
+WeatherStormy         3.200e+00  2.271e-01  14.090  < 2e-16 ***
+Time_of_DayAfternoon  4.903e-01  1.638e-01   2.992  0.00277 ** 
+Time_of_DayEvening    1.208e+00  1.624e-01   7.442 9.91e-14 ***
+Time_of_DayNight     -6.497e-01  1.977e-01  -3.286  0.00101 ** 
+VehicleScooter       -2.858e+00  1.537e-01 -18.592  < 2e-16 ***
+VehicleCar           -6.890e-01  1.560e-01  -4.416 1.01e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4762.1  on 3993  degrees of freedom
+Residual deviance: 2043.9  on 3977  degrees of freedom
+AIC: 2077.9
+
+Number of Fisher Scoring iterations: 7
+
+
+Odds ratios:
+         (Intercept)          Distance_km        Prep_Time_min 
+               0.000                1.794                1.370 
+  Courier_Experience          Items_Count          Order_Value 
+               0.829                1.159                1.000 
+   Restaurant_Rating        TrafficMedium          TrafficHigh 
+               0.752               16.606              275.859 
+        WeatherFoggy         WeatherRainy        WeatherStormy 
+               3.323                5.351               24.538 
+Time_of_DayAfternoon   Time_of_DayEvening     Time_of_DayNight 
+               1.633                3.348                0.522 
+      VehicleScooter           VehicleCar 
+               0.057                0.502 
+Confusion Matrix and Statistics
+
+          Reference
+Prediction   0   1
+         0 679  75
+         1  57 185
+                                          
+               Accuracy : 0.8675          
+                 95% CI : (0.8448, 0.8879)
+    No Information Rate : 0.739           
+    P-Value [Acc > NIR] : <2e-16          
+                                          
+                  Kappa : 0.6486          
+                                          
+ Mcnemar's Test P-Value : 0.139           
+                                          
+            Sensitivity : 0.7115          
+            Specificity : 0.9226          
+         Pos Pred Value : 0.7645          
+         Neg Pred Value : 0.9005          
+             Prevalence : 0.2610          
+         Detection Rate : 0.1857          
+   Detection Prevalence : 0.2430          
+      Balanced Accuracy : 0.8170          
+                                          
+       'Positive' Class : 1               
+                                          
+
+Logistic regression AUC: 0.9138 
+Random-forest classifier  accuracy: 0.8554  AUC: 0.9036 
+
+### STAGE7_COMPARISON
+Regression models (target: Delivery_Time_min)
+                    Model       Type   RMSE    MAE     R2
+ Simple Linear (Distance) Regression 8.3487 6.5059 0.6641
+          Multiple Linear Regression 5.0509 3.9541 0.8770
+    Linear + Interactions Regression 4.4698 3.5334 0.9037
+            Decision Tree Regression 7.1309 5.5264 0.7549
+            Random Forest Regression 5.3742 4.0824 0.8608
+
+Classification models (target: Delayed)
+                    Model Accuracy Sensitivity Specificity Precision    AUC
+      Logistic Regression   0.8675      0.7115      0.9226    0.7645 0.9138
+ Random Forest Classifier   0.8554      0.6462      0.9293    0.7636 0.9036
+
+### STAGE7_PREDICTION
+                         Scenario Predicted_Time_min RF_Time_min
+   Short trip, clear, low traffic               15.3        19.1
+               Evening rush, rain               58.3        57.0
+          Long trip, storm, night               91.0        71.4
+ Medium trip, light rain, scooter               42.8        45.3
+        Heavy order, high traffic               71.7        65.1
+ Promised_Time_min Delay_Probability Delay_Prediction
+                35             0.000          On time
+                46             0.992          DELAYED
+                60             0.999          DELAYED
+                49             0.062          On time
+                50             1.000          DELAYED
+
+### STAGE7_CONCLUSION
+Best regression model on test data: Linear + Interactions | RMSE 4.4698 | R2 0.9037 
+Logistic regression AUC: 0.914 
+
+Analysis finished. Plots in ./plots, tables in ./results

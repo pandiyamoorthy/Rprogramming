@@ -1,0 +1,6 @@
+"Scenario","Distance_km","Prep_Time_min","Courier_Experience","Items_Count","Order_Value","Restaurant_Rating","Traffic","Weather","Time_of_Day","Vehicle","Predicted_Time_min","RF_Time_min","Promised_Time_min","Delay_Probability","Delay_Prediction"
+"Short trip, clear, low traffic",2,10,4,1,250,4.5,"Low","Clear","Afternoon","Scooter",15.3,19.1,35,0,"On time"
+"Evening rush, rain",6.5,18,1,3,640,3.8,"High","Rainy","Evening","Bike",58.3,57,46,0.992,"DELAYED"
+"Long trip, storm, night",12,20,0.5,2,420,4,"High","Stormy","Night","Car",91,71.4,60,0.999,"DELAYED"
+"Medium trip, light rain, scooter",7.5,15,3,2,380,4.6,"Medium","Rainy","Afternoon","Scooter",42.8,45.3,49,0.062,"On time"
+"Heavy order, high traffic",8,25,2,6,1500,3.5,"High","Foggy","Evening","Bike",71.7,65.1,50,1,"DELAYED"

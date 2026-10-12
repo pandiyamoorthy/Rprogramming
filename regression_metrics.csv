@@ -1,0 +1,6 @@
+"Model","Type","RMSE","MAE","R2"
+"Simple Linear (Distance)","Regression",8.3487,6.5059,0.6641
+"Multiple Linear","Regression",5.0509,3.9541,0.877
+"Linear + Interactions","Regression",4.4698,3.5334,0.9037
+"Decision Tree","Regression",7.1309,5.5264,0.7549
+"Random Forest","Regression",5.3742,4.0824,0.8608
